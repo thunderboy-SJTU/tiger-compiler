@@ -1,0 +1,2827 @@
+状态 37 conflicts: 1 shift/reduce
+状态 40 conflicts: 1 shift/reduce
+
+
+语法
+
+    0 $accept: program $end
+
+    1 program: exp
+
+    2 exp: lvalue
+    3    | NIL
+    4    | LPAREN expseq RPAREN
+    5    | INT
+    6    | STRING
+    7    | exp PLUS exp
+    8    | exp MINUS exp
+    9    | exp TIMES exp
+   10    | exp DIVIDE exp
+   11    | exp EQ exp
+   12    | exp NEQ exp
+   13    | exp LT exp
+   14    | exp LE exp
+   15    | exp GT exp
+   16    | exp GE exp
+   17    | exp AND exp
+   18    | exp OR exp
+   19    | MINUS exp
+   20    | ifexp
+   21    | whileexp
+   22    | forexp
+   23    | letexp
+   24    | BREAK
+   25    | ID LPAREN explist RPAREN
+   26    | ID LBRACE recseq RBRACE
+   27    | ID LBRACK exp RBRACK OF exp
+   28    | lvalue ASSIGN exp
+
+   29 exp_list: exp
+   30         | exp COMMA exp_list
+
+   31 explist: exp_list
+   32        | %empty
+
+   33 exp_seq: exp
+   34        | exp SEMICOLON exp_seq
+
+   35 expseq: exp_seq
+   36       | %empty
+
+   37 rec: ID EQ exp
+
+   38 rec_seq: rec
+   39        | rec COMMA rec_seq
+
+   40 recseq: rec_seq
+   41       | %empty
+
+   42 decs: dec decs
+   43     | %empty
+
+   44 dec: tydecs
+   45    | vardec
+   46    | fundecs
+
+   47 tydec: TYPE ID EQ ty
+
+   48 tydecs: tydec
+   49       | tydec tydecs
+
+   50 vardec: VAR ID ASSIGN exp
+   51       | VAR ID COLON ID ASSIGN exp
+
+   52 fundec: FUNCTION ID LPAREN tyfields RPAREN EQ exp
+   53       | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp
+
+   54 fundecs: fundec
+   55        | fundec fundecs
+
+   56 ty: ID
+   57   | LBRACE tyfields RBRACE
+   58   | ARRAY OF ID
+
+   59 tyfield: ID COLON ID
+
+   60 tyfield_s: tyfield
+   61          | tyfield COMMA tyfield_s
+
+   62 tyfields: tyfield_s
+   63         | %empty
+
+   64 lvalue: ID
+   65       | lvalue2
+
+   66 lvalue1: ID DOT ID
+   67        | ID LBRACK exp RBRACK
+
+   68 lvalue2: lvalue1
+   69        | lvalue2 DOT ID
+   70        | lvalue2 LBRACK exp RBRACK
+
+   71 ifexp: IF exp THEN exp ELSE exp
+   72      | IF exp THEN exp
+
+   73 whileexp: WHILE exp DO exp
+
+   74 forexp: FOR ID ASSIGN exp TO exp DO exp
+
+   75 letexp: LET decs IN expseq END
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+ID (258) 25 26 27 37 47 50 51 52 53 56 58 59 64 66 67 69 74
+STRING (259) 6
+INT (260) 5
+COMMA (261) 30 39 61
+COLON (262) 51 53 59
+SEMICOLON (263) 34
+LPAREN (264) 4 25 52 53
+RPAREN (265) 4 25 52 53
+LBRACK (266) 27 67 70
+RBRACK (267) 27 67 70
+LBRACE (268) 26 57
+RBRACE (269) 26 57
+DOT (270) 66 69
+PLUS (271) 7
+MINUS (272) 8 19
+TIMES (273) 9
+DIVIDE (274) 10
+EQ (275) 11 37 47 52 53
+NEQ (276) 12
+LT (277) 13
+LE (278) 14
+GT (279) 15
+GE (280) 16
+AND (281) 17
+OR (282) 18
+ASSIGN (283) 28 50 51 74
+ARRAY (284) 58
+IF (285) 71 72
+THEN (286) 71 72
+ELSE (287) 71
+WHILE (288) 73
+FOR (289) 74
+TO (290) 74
+DO (291) 73 74
+LET (292) 75
+IN (293) 75
+END (294) 75
+OF (295) 27 58
+BREAK (296) 24
+NIL (297) 3
+FUNCTION (298) 52 53
+VAR (299) 50 51
+TYPE (300) 47
+UMINUS (301)
+
+
+Nonterminals, with rules where they appear
+
+$accept (47)
+    左： 0
+program (48)
+    左： 1, 右： 0
+exp (49)
+    左： 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+    24 25 26 27 28, 右： 1 7 8 9 10 11 12 13 14 15 16 17 18 19 27
+    28 29 30 33 34 37 50 51 52 53 67 70 71 72 73 74
+exp_list (50)
+    左： 29 30, 右： 30 31
+explist (51)
+    左： 31 32, 右： 25
+exp_seq (52)
+    左： 33 34, 右： 34 35
+expseq (53)
+    左： 35 36, 右： 4 75
+rec (54)
+    左： 37, 右： 38 39
+rec_seq (55)
+    左： 38 39, 右： 39 40
+recseq (56)
+    左： 40 41, 右： 26
+decs (57)
+    左： 42 43, 右： 42 75
+dec (58)
+    左： 44 45 46, 右： 42
+tydec (59)
+    左： 47, 右： 48 49
+tydecs (60)
+    左： 48 49, 右： 44 49
+vardec (61)
+    左： 50 51, 右： 45
+fundec (62)
+    左： 52 53, 右： 54 55
+fundecs (63)
+    左： 54 55, 右： 46 55
+ty (64)
+    左： 56 57 58, 右： 47
+tyfield (65)
+    左： 59, 右： 60 61
+tyfield_s (66)
+    左： 60 61, 右： 61 62
+tyfields (67)
+    左： 62 63, 右： 52 53 57
+lvalue (68)
+    左： 64 65, 右： 2 28
+lvalue1 (69)
+    左： 66 67, 右： 68
+lvalue2 (70)
+    左： 68 69 70, 右： 65 69 70
+ifexp (71)
+    左： 71 72, 右： 20
+whileexp (72)
+    左： 73, 右： 21
+forexp (73)
+    左： 74, 右： 22
+letexp (74)
+    左： 75, 右： 23
+
+
+State 0
+
+    0 $accept: . program $end
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    program   转到状态 12
+    exp       转到状态 13
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 1
+
+   25 exp: ID . LPAREN explist RPAREN
+   26    | ID . LBRACE recseq RBRACE
+   27    | ID . LBRACK exp RBRACK OF exp
+   64 lvalue: ID .
+   66 lvalue1: ID . DOT ID
+   67        | ID . LBRACK exp RBRACK
+
+    LPAREN  shift, and go to state 21
+    LBRACK  shift, and go to state 22
+    LBRACE  shift, and go to state 23
+    DOT     shift, and go to state 24
+
+    $default  reduce using rule 64 (lvalue)
+
+
+State 2
+
+    6 exp: STRING .
+
+    $default  reduce using rule 6 (exp)
+
+
+State 3
+
+    5 exp: INT .
+
+    $default  reduce using rule 5 (exp)
+
+
+State 4
+
+    4 exp: LPAREN . expseq RPAREN
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    $default  reduce using rule 36 (expseq)
+
+    exp       转到状态 25
+    exp_seq   转到状态 26
+    expseq    转到状态 27
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 5
+
+   19 exp: MINUS . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 28
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 6
+
+   71 ifexp: IF . exp THEN exp ELSE exp
+   72      | IF . exp THEN exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 29
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 7
+
+   73 whileexp: WHILE . exp DO exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 30
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 8
+
+   74 forexp: FOR . ID ASSIGN exp TO exp DO exp
+
+    ID  shift, and go to state 31
+
+
+State 9
+
+   75 letexp: LET . decs IN expseq END
+
+    FUNCTION  shift, and go to state 32
+    VAR       shift, and go to state 33
+    TYPE      shift, and go to state 34
+
+    $default  reduce using rule 43 (decs)
+
+    decs     转到状态 35
+    dec      转到状态 36
+    tydec    转到状态 37
+    tydecs   转到状态 38
+    vardec   转到状态 39
+    fundec   转到状态 40
+    fundecs  转到状态 41
+
+
+State 10
+
+   24 exp: BREAK .
+
+    $default  reduce using rule 24 (exp)
+
+
+State 11
+
+    3 exp: NIL .
+
+    $default  reduce using rule 3 (exp)
+
+
+State 12
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 42
+
+
+State 13
+
+    1 program: exp .
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 1 (program)
+
+
+State 14
+
+    2 exp: lvalue .
+   28    | lvalue . ASSIGN exp
+
+    ASSIGN  shift, and go to state 55
+
+    $default  reduce using rule 2 (exp)
+
+
+State 15
+
+   68 lvalue2: lvalue1 .
+
+    $default  reduce using rule 68 (lvalue2)
+
+
+State 16
+
+   65 lvalue: lvalue2 .
+   69 lvalue2: lvalue2 . DOT ID
+   70        | lvalue2 . LBRACK exp RBRACK
+
+    LBRACK  shift, and go to state 56
+    DOT     shift, and go to state 57
+
+    $default  reduce using rule 65 (lvalue)
+
+
+State 17
+
+   20 exp: ifexp .
+
+    $default  reduce using rule 20 (exp)
+
+
+State 18
+
+   21 exp: whileexp .
+
+    $default  reduce using rule 21 (exp)
+
+
+State 19
+
+   22 exp: forexp .
+
+    $default  reduce using rule 22 (exp)
+
+
+State 20
+
+   23 exp: letexp .
+
+    $default  reduce using rule 23 (exp)
+
+
+State 21
+
+   25 exp: ID LPAREN . explist RPAREN
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    $default  reduce using rule 32 (explist)
+
+    exp       转到状态 58
+    exp_list  转到状态 59
+    explist   转到状态 60
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 22
+
+   27 exp: ID LBRACK . exp RBRACK OF exp
+   67 lvalue1: ID LBRACK . exp RBRACK
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 61
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 23
+
+   26 exp: ID LBRACE . recseq RBRACE
+
+    ID  shift, and go to state 62
+
+    $default  reduce using rule 41 (recseq)
+
+    rec      转到状态 63
+    rec_seq  转到状态 64
+    recseq   转到状态 65
+
+
+State 24
+
+   66 lvalue1: ID DOT . ID
+
+    ID  shift, and go to state 66
+
+
+State 25
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   33 exp_seq: exp .
+   34        | exp . SEMICOLON exp_seq
+
+    SEMICOLON  shift, and go to state 67
+    PLUS       shift, and go to state 43
+    MINUS      shift, and go to state 44
+    TIMES      shift, and go to state 45
+    DIVIDE     shift, and go to state 46
+    EQ         shift, and go to state 47
+    NEQ        shift, and go to state 48
+    LT         shift, and go to state 49
+    LE         shift, and go to state 50
+    GT         shift, and go to state 51
+    GE         shift, and go to state 52
+    AND        shift, and go to state 53
+    OR         shift, and go to state 54
+
+    $default  reduce using rule 33 (exp_seq)
+
+
+State 26
+
+   35 expseq: exp_seq .
+
+    $default  reduce using rule 35 (expseq)
+
+
+State 27
+
+    4 exp: LPAREN expseq . RPAREN
+
+    RPAREN  shift, and go to state 68
+
+
+State 28
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   19    | MINUS exp .
+
+    $default  reduce using rule 19 (exp)
+
+
+State 29
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   71 ifexp: IF exp . THEN exp ELSE exp
+   72      | IF exp . THEN exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+    THEN    shift, and go to state 69
+
+
+State 30
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   73 whileexp: WHILE exp . DO exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+    DO      shift, and go to state 70
+
+
+State 31
+
+   74 forexp: FOR ID . ASSIGN exp TO exp DO exp
+
+    ASSIGN  shift, and go to state 71
+
+
+State 32
+
+   52 fundec: FUNCTION . ID LPAREN tyfields RPAREN EQ exp
+   53       | FUNCTION . ID LPAREN tyfields RPAREN COLON ID EQ exp
+
+    ID  shift, and go to state 72
+
+
+State 33
+
+   50 vardec: VAR . ID ASSIGN exp
+   51       | VAR . ID COLON ID ASSIGN exp
+
+    ID  shift, and go to state 73
+
+
+State 34
+
+   47 tydec: TYPE . ID EQ ty
+
+    ID  shift, and go to state 74
+
+
+State 35
+
+   75 letexp: LET decs . IN expseq END
+
+    IN  shift, and go to state 75
+
+
+State 36
+
+   42 decs: dec . decs
+
+    FUNCTION  shift, and go to state 32
+    VAR       shift, and go to state 33
+    TYPE      shift, and go to state 34
+
+    $default  reduce using rule 43 (decs)
+
+    decs     转到状态 76
+    dec      转到状态 36
+    tydec    转到状态 37
+    tydecs   转到状态 38
+    vardec   转到状态 39
+    fundec   转到状态 40
+    fundecs  转到状态 41
+
+
+State 37
+
+   48 tydecs: tydec .
+   49       | tydec . tydecs
+
+    TYPE  shift, and go to state 34
+
+    TYPE      [reduce using rule 48 (tydecs)]
+    $default  reduce using rule 48 (tydecs)
+
+    tydec   转到状态 37
+    tydecs  转到状态 77
+
+
+State 38
+
+   44 dec: tydecs .
+
+    $default  reduce using rule 44 (dec)
+
+
+State 39
+
+   45 dec: vardec .
+
+    $default  reduce using rule 45 (dec)
+
+
+State 40
+
+   54 fundecs: fundec .
+   55        | fundec . fundecs
+
+    FUNCTION  shift, and go to state 32
+
+    FUNCTION  [reduce using rule 54 (fundecs)]
+    $default  reduce using rule 54 (fundecs)
+
+    fundec   转到状态 40
+    fundecs  转到状态 78
+
+
+State 41
+
+   46 dec: fundecs .
+
+    $default  reduce using rule 46 (dec)
+
+
+State 42
+
+    0 $accept: program $end .
+
+    $default  接受
+
+
+State 43
+
+    7 exp: exp PLUS . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 79
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 44
+
+    8 exp: exp MINUS . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 80
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 45
+
+    9 exp: exp TIMES . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 81
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 46
+
+   10 exp: exp DIVIDE . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 82
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 47
+
+   11 exp: exp EQ . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 83
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 48
+
+   12 exp: exp NEQ . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 84
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 49
+
+   13 exp: exp LT . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 85
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 50
+
+   14 exp: exp LE . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 86
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 51
+
+   15 exp: exp GT . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 87
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 52
+
+   16 exp: exp GE . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 88
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 53
+
+   17 exp: exp AND . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 89
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 54
+
+   18 exp: exp OR . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 90
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 55
+
+   28 exp: lvalue ASSIGN . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 91
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 56
+
+   70 lvalue2: lvalue2 LBRACK . exp RBRACK
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 92
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 57
+
+   69 lvalue2: lvalue2 DOT . ID
+
+    ID  shift, and go to state 93
+
+
+State 58
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   29 exp_list: exp .
+   30         | exp . COMMA exp_list
+
+    COMMA   shift, and go to state 94
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 29 (exp_list)
+
+
+State 59
+
+   31 explist: exp_list .
+
+    $default  reduce using rule 31 (explist)
+
+
+State 60
+
+   25 exp: ID LPAREN explist . RPAREN
+
+    RPAREN  shift, and go to state 95
+
+
+State 61
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   27    | ID LBRACK exp . RBRACK OF exp
+   67 lvalue1: ID LBRACK exp . RBRACK
+
+    RBRACK  shift, and go to state 96
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+
+State 62
+
+   37 rec: ID . EQ exp
+
+    EQ  shift, and go to state 97
+
+
+State 63
+
+   38 rec_seq: rec .
+   39        | rec . COMMA rec_seq
+
+    COMMA  shift, and go to state 98
+
+    $default  reduce using rule 38 (rec_seq)
+
+
+State 64
+
+   40 recseq: rec_seq .
+
+    $default  reduce using rule 40 (recseq)
+
+
+State 65
+
+   26 exp: ID LBRACE recseq . RBRACE
+
+    RBRACE  shift, and go to state 99
+
+
+State 66
+
+   66 lvalue1: ID DOT ID .
+
+    $default  reduce using rule 66 (lvalue1)
+
+
+State 67
+
+   34 exp_seq: exp SEMICOLON . exp_seq
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 25
+    exp_seq   转到状态 100
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 68
+
+    4 exp: LPAREN expseq RPAREN .
+
+    $default  reduce using rule 4 (exp)
+
+
+State 69
+
+   71 ifexp: IF exp THEN . exp ELSE exp
+   72      | IF exp THEN . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 101
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 70
+
+   73 whileexp: WHILE exp DO . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 102
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 71
+
+   74 forexp: FOR ID ASSIGN . exp TO exp DO exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 103
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 72
+
+   52 fundec: FUNCTION ID . LPAREN tyfields RPAREN EQ exp
+   53       | FUNCTION ID . LPAREN tyfields RPAREN COLON ID EQ exp
+
+    LPAREN  shift, and go to state 104
+
+
+State 73
+
+   50 vardec: VAR ID . ASSIGN exp
+   51       | VAR ID . COLON ID ASSIGN exp
+
+    COLON   shift, and go to state 105
+    ASSIGN  shift, and go to state 106
+
+
+State 74
+
+   47 tydec: TYPE ID . EQ ty
+
+    EQ  shift, and go to state 107
+
+
+State 75
+
+   75 letexp: LET decs IN . expseq END
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    $default  reduce using rule 36 (expseq)
+
+    exp       转到状态 25
+    exp_seq   转到状态 26
+    expseq    转到状态 108
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 76
+
+   42 decs: dec decs .
+
+    $default  reduce using rule 42 (decs)
+
+
+State 77
+
+   49 tydecs: tydec tydecs .
+
+    $default  reduce using rule 49 (tydecs)
+
+
+State 78
+
+   55 fundecs: fundec fundecs .
+
+    $default  reduce using rule 55 (fundecs)
+
+
+State 79
+
+    7 exp: exp . PLUS exp
+    7    | exp PLUS exp .
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+
+    $default  reduce using rule 7 (exp)
+
+
+State 80
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    8    | exp MINUS exp .
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+
+    $default  reduce using rule 8 (exp)
+
+
+State 81
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+    9    | exp TIMES exp .
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    $default  reduce using rule 9 (exp)
+
+
+State 82
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   10    | exp DIVIDE exp .
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    $default  reduce using rule 10 (exp)
+
+
+State 83
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   11    | exp EQ exp .
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+
+    EQ   error (nonassociative)
+    NEQ  error (nonassociative)
+    LT   error (nonassociative)
+    LE   error (nonassociative)
+    GT   error (nonassociative)
+    GE   error (nonassociative)
+
+    $default  reduce using rule 11 (exp)
+
+
+State 84
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   12    | exp NEQ exp .
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+
+    EQ   error (nonassociative)
+    NEQ  error (nonassociative)
+    LT   error (nonassociative)
+    LE   error (nonassociative)
+    GT   error (nonassociative)
+    GE   error (nonassociative)
+
+    $default  reduce using rule 12 (exp)
+
+
+State 85
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   13    | exp LT exp .
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+
+    EQ   error (nonassociative)
+    NEQ  error (nonassociative)
+    LT   error (nonassociative)
+    LE   error (nonassociative)
+    GT   error (nonassociative)
+    GE   error (nonassociative)
+
+    $default  reduce using rule 13 (exp)
+
+
+State 86
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   14    | exp LE exp .
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+
+    EQ   error (nonassociative)
+    NEQ  error (nonassociative)
+    LT   error (nonassociative)
+    LE   error (nonassociative)
+    GT   error (nonassociative)
+    GE   error (nonassociative)
+
+    $default  reduce using rule 14 (exp)
+
+
+State 87
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   15    | exp GT exp .
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+
+    EQ   error (nonassociative)
+    NEQ  error (nonassociative)
+    LT   error (nonassociative)
+    LE   error (nonassociative)
+    GT   error (nonassociative)
+    GE   error (nonassociative)
+
+    $default  reduce using rule 15 (exp)
+
+
+State 88
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   16    | exp GE exp .
+   17    | exp . AND exp
+   18    | exp . OR exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+
+    EQ   error (nonassociative)
+    NEQ  error (nonassociative)
+    LT   error (nonassociative)
+    LE   error (nonassociative)
+    GT   error (nonassociative)
+    GE   error (nonassociative)
+
+    $default  reduce using rule 16 (exp)
+
+
+State 89
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   17    | exp AND exp .
+   18    | exp . OR exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+
+    $default  reduce using rule 17 (exp)
+
+
+State 90
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   18    | exp OR exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+
+    $default  reduce using rule 18 (exp)
+
+
+State 91
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   28    | lvalue ASSIGN exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 28 (exp)
+
+
+State 92
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   70 lvalue2: lvalue2 LBRACK exp . RBRACK
+
+    RBRACK  shift, and go to state 109
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+
+State 93
+
+   69 lvalue2: lvalue2 DOT ID .
+
+    $default  reduce using rule 69 (lvalue2)
+
+
+State 94
+
+   30 exp_list: exp COMMA . exp_list
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 58
+    exp_list  转到状态 110
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 95
+
+   25 exp: ID LPAREN explist RPAREN .
+
+    $default  reduce using rule 25 (exp)
+
+
+State 96
+
+   27 exp: ID LBRACK exp RBRACK . OF exp
+   67 lvalue1: ID LBRACK exp RBRACK .
+
+    OF  shift, and go to state 111
+
+    $default  reduce using rule 67 (lvalue1)
+
+
+State 97
+
+   37 rec: ID EQ . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 112
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 98
+
+   39 rec_seq: rec COMMA . rec_seq
+
+    ID  shift, and go to state 62
+
+    rec      转到状态 63
+    rec_seq  转到状态 113
+
+
+State 99
+
+   26 exp: ID LBRACE recseq RBRACE .
+
+    $default  reduce using rule 26 (exp)
+
+
+State 100
+
+   34 exp_seq: exp SEMICOLON exp_seq .
+
+    $default  reduce using rule 34 (exp_seq)
+
+
+State 101
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   71 ifexp: IF exp THEN exp . ELSE exp
+   72      | IF exp THEN exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+    ELSE    shift, and go to state 114
+
+    $default  reduce using rule 72 (ifexp)
+
+
+State 102
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   73 whileexp: WHILE exp DO exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 73 (whileexp)
+
+
+State 103
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   74 forexp: FOR ID ASSIGN exp . TO exp DO exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+    TO      shift, and go to state 115
+
+
+State 104
+
+   52 fundec: FUNCTION ID LPAREN . tyfields RPAREN EQ exp
+   53       | FUNCTION ID LPAREN . tyfields RPAREN COLON ID EQ exp
+
+    ID  shift, and go to state 116
+
+    $default  reduce using rule 63 (tyfields)
+
+    tyfield    转到状态 117
+    tyfield_s  转到状态 118
+    tyfields   转到状态 119
+
+
+State 105
+
+   51 vardec: VAR ID COLON . ID ASSIGN exp
+
+    ID  shift, and go to state 120
+
+
+State 106
+
+   50 vardec: VAR ID ASSIGN . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 121
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 107
+
+   47 tydec: TYPE ID EQ . ty
+
+    ID      shift, and go to state 122
+    LBRACE  shift, and go to state 123
+    ARRAY   shift, and go to state 124
+
+    ty  转到状态 125
+
+
+State 108
+
+   75 letexp: LET decs IN expseq . END
+
+    END  shift, and go to state 126
+
+
+State 109
+
+   70 lvalue2: lvalue2 LBRACK exp RBRACK .
+
+    $default  reduce using rule 70 (lvalue2)
+
+
+State 110
+
+   30 exp_list: exp COMMA exp_list .
+
+    $default  reduce using rule 30 (exp_list)
+
+
+State 111
+
+   27 exp: ID LBRACK exp RBRACK OF . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 127
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 112
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   37 rec: ID EQ exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 37 (rec)
+
+
+State 113
+
+   39 rec_seq: rec COMMA rec_seq .
+
+    $default  reduce using rule 39 (rec_seq)
+
+
+State 114
+
+   71 ifexp: IF exp THEN exp ELSE . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 128
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 115
+
+   74 forexp: FOR ID ASSIGN exp TO . exp DO exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 129
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 116
+
+   59 tyfield: ID . COLON ID
+
+    COLON  shift, and go to state 130
+
+
+State 117
+
+   60 tyfield_s: tyfield .
+   61          | tyfield . COMMA tyfield_s
+
+    COMMA  shift, and go to state 131
+
+    $default  reduce using rule 60 (tyfield_s)
+
+
+State 118
+
+   62 tyfields: tyfield_s .
+
+    $default  reduce using rule 62 (tyfields)
+
+
+State 119
+
+   52 fundec: FUNCTION ID LPAREN tyfields . RPAREN EQ exp
+   53       | FUNCTION ID LPAREN tyfields . RPAREN COLON ID EQ exp
+
+    RPAREN  shift, and go to state 132
+
+
+State 120
+
+   51 vardec: VAR ID COLON ID . ASSIGN exp
+
+    ASSIGN  shift, and go to state 133
+
+
+State 121
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   50 vardec: VAR ID ASSIGN exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 50 (vardec)
+
+
+State 122
+
+   56 ty: ID .
+
+    $default  reduce using rule 56 (ty)
+
+
+State 123
+
+   57 ty: LBRACE . tyfields RBRACE
+
+    ID  shift, and go to state 116
+
+    $default  reduce using rule 63 (tyfields)
+
+    tyfield    转到状态 117
+    tyfield_s  转到状态 118
+    tyfields   转到状态 134
+
+
+State 124
+
+   58 ty: ARRAY . OF ID
+
+    OF  shift, and go to state 135
+
+
+State 125
+
+   47 tydec: TYPE ID EQ ty .
+
+    $default  reduce using rule 47 (tydec)
+
+
+State 126
+
+   75 letexp: LET decs IN expseq END .
+
+    $default  reduce using rule 75 (letexp)
+
+
+State 127
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   27    | ID LBRACK exp RBRACK OF exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 27 (exp)
+
+
+State 128
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   71 ifexp: IF exp THEN exp ELSE exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 71 (ifexp)
+
+
+State 129
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   74 forexp: FOR ID ASSIGN exp TO exp . DO exp
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+    DO      shift, and go to state 136
+
+
+State 130
+
+   59 tyfield: ID COLON . ID
+
+    ID  shift, and go to state 137
+
+
+State 131
+
+   61 tyfield_s: tyfield COMMA . tyfield_s
+
+    ID  shift, and go to state 116
+
+    tyfield    转到状态 117
+    tyfield_s  转到状态 138
+
+
+State 132
+
+   52 fundec: FUNCTION ID LPAREN tyfields RPAREN . EQ exp
+   53       | FUNCTION ID LPAREN tyfields RPAREN . COLON ID EQ exp
+
+    COLON  shift, and go to state 139
+    EQ     shift, and go to state 140
+
+
+State 133
+
+   51 vardec: VAR ID COLON ID ASSIGN . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 141
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 134
+
+   57 ty: LBRACE tyfields . RBRACE
+
+    RBRACE  shift, and go to state 142
+
+
+State 135
+
+   58 ty: ARRAY OF . ID
+
+    ID  shift, and go to state 143
+
+
+State 136
+
+   74 forexp: FOR ID ASSIGN exp TO exp DO . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 144
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 137
+
+   59 tyfield: ID COLON ID .
+
+    $default  reduce using rule 59 (tyfield)
+
+
+State 138
+
+   61 tyfield_s: tyfield COMMA tyfield_s .
+
+    $default  reduce using rule 61 (tyfield_s)
+
+
+State 139
+
+   53 fundec: FUNCTION ID LPAREN tyfields RPAREN COLON . ID EQ exp
+
+    ID  shift, and go to state 145
+
+
+State 140
+
+   52 fundec: FUNCTION ID LPAREN tyfields RPAREN EQ . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 146
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 141
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   51 vardec: VAR ID COLON ID ASSIGN exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 51 (vardec)
+
+
+State 142
+
+   57 ty: LBRACE tyfields RBRACE .
+
+    $default  reduce using rule 57 (ty)
+
+
+State 143
+
+   58 ty: ARRAY OF ID .
+
+    $default  reduce using rule 58 (ty)
+
+
+State 144
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   74 forexp: FOR ID ASSIGN exp TO exp DO exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 74 (forexp)
+
+
+State 145
+
+   53 fundec: FUNCTION ID LPAREN tyfields RPAREN COLON ID . EQ exp
+
+    EQ  shift, and go to state 147
+
+
+State 146
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   52 fundec: FUNCTION ID LPAREN tyfields RPAREN EQ exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 52 (fundec)
+
+
+State 147
+
+   53 fundec: FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ . exp
+
+    ID      shift, and go to state 1
+    STRING  shift, and go to state 2
+    INT     shift, and go to state 3
+    LPAREN  shift, and go to state 4
+    MINUS   shift, and go to state 5
+    IF      shift, and go to state 6
+    WHILE   shift, and go to state 7
+    FOR     shift, and go to state 8
+    LET     shift, and go to state 9
+    BREAK   shift, and go to state 10
+    NIL     shift, and go to state 11
+
+    exp       转到状态 148
+    lvalue    转到状态 14
+    lvalue1   转到状态 15
+    lvalue2   转到状态 16
+    ifexp     转到状态 17
+    whileexp  转到状态 18
+    forexp    转到状态 19
+    letexp    转到状态 20
+
+
+State 148
+
+    7 exp: exp . PLUS exp
+    8    | exp . MINUS exp
+    9    | exp . TIMES exp
+   10    | exp . DIVIDE exp
+   11    | exp . EQ exp
+   12    | exp . NEQ exp
+   13    | exp . LT exp
+   14    | exp . LE exp
+   15    | exp . GT exp
+   16    | exp . GE exp
+   17    | exp . AND exp
+   18    | exp . OR exp
+   53 fundec: FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp .
+
+    PLUS    shift, and go to state 43
+    MINUS   shift, and go to state 44
+    TIMES   shift, and go to state 45
+    DIVIDE  shift, and go to state 46
+    EQ      shift, and go to state 47
+    NEQ     shift, and go to state 48
+    LT      shift, and go to state 49
+    LE      shift, and go to state 50
+    GT      shift, and go to state 51
+    GE      shift, and go to state 52
+    AND     shift, and go to state 53
+    OR      shift, and go to state 54
+
+    $default  reduce using rule 53 (fundec)
